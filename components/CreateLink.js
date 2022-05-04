@@ -1,9 +1,30 @@
 import React, { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import Link from 'next/link';
 
-const CreateLink = () => {
+const CREATE_LINK_MUTATION = gql`
+  mutation PostMutation($description: String!, $url: String!) {
+    post(description: $description, url: $url) {
+      id
+      createdAt
+      url
+      description
+    }
+  }
+`;
+
+const CreateLinkComponent = () => {
   const [formState, setFormState] = useState({
     description: '',
     url: '',
+  });
+
+  const [createLink] = useMutation(CREATE_LINK_MUTATION, {
+    variables: {
+      description: formState.description,
+      url: formState.url,
+    },
+    onCompleted: () => <Link href="/" />,
   });
 
   return (
@@ -11,6 +32,7 @@ const CreateLink = () => {
       <form
         onSubmit={e => {
           e.preventDefault();
+          createLink();
         }}
       >
         <div className="flex flex-column mt3">
@@ -45,4 +67,4 @@ const CreateLink = () => {
   );
 };
 
-export default CreateLink;
+export default CreateLinkComponent;
