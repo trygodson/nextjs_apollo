@@ -46,7 +46,7 @@ const Header = () => {
           </Link>
           <div className="ml1">|</div>
 
-          <Link
+          {/* <Link
             href={{
               pathname: '/new/[slug]',
               query: { slug: 1 },
@@ -54,7 +54,7 @@ const Header = () => {
             className="ml3 no-underline black"
           >
             new
-          </Link>
+          </Link> */}
           <div className="ml1">|</div>
           {authToken && (
             <div className="flex">
