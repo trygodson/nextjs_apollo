@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { AUTH_TOKEN } from '../constants/constants';
-import { authcache } from '../pages/_app';
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation(

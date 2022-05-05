@@ -1,7 +1,6 @@
 import { AUTH_TOKEN, LINKS_PER_PAGE } from '../constants/constants.js';
 import { timeDifferenceForDate } from '../constants/utils.js';
 import { gql, useMutation } from '@apollo/client';
-import { authcache } from '../pages/_app';
 import { FEED_QUERY } from './linkList.js';
 
 const VOTE_MUTATION = gql`

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from './link';
 import { gql, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { LINKS_PER_PAGE } from '../constants/constants';
+// import { LINKS_PER_PAGE } from '../constants/constants';
 
 export const FEED_QUERY = gql`
   {
