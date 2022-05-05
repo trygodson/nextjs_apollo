@@ -1,4 +1,4 @@
-import { AUTH_TOKEN } from '../constants/constants.js';
+import { AUTH_TOKEN, LINKS_PER_PAGE } from '../constants/constants.js';
 import { timeDifferenceForDate } from '../constants/utils.js';
 import { gql, useMutation } from '@apollo/client';
 import { authcache } from '../pages/_app';
@@ -31,6 +31,11 @@ const Link = props => {
   if (typeof window !== 'undefined') {
     authToken = window.localStorage.getItem(AUTH_TOKEN);
   }
+
+  const take = LINKS_PER_PAGE;
+  const skip = 0;
+  const orderBy = { createdAt: 'desc' };
+
   const [vote] = useMutation(VOTE_MUTATION, {
     variables: {
       linkId: link.id,
@@ -38,6 +43,11 @@ const Link = props => {
     update: (cache, { data: { vote } }) => {
       const { feed } = cache.readQuery({
         query: FEED_QUERY,
+        variables: {
+          take,
+          skip,
+          orderBy,
+        },
       });
 
       const updatedLinks = feed.links.map(feedLink => {
@@ -56,6 +66,11 @@ const Link = props => {
           feed: {
             links: updatedLinks,
           },
+        },
+        variables: {
+          take,
+          skip,
+          orderBy,
         },
       });
     },

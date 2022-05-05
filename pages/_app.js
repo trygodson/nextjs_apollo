@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, split } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import '../styles/globals.css';
 import './styles.css';

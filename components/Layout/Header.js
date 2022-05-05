@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { AUTH_TOKEN } from '../../constants/constants';
 import { useRouter } from 'next/router';
-import { authcache } from '../../pages/_app';
+// import { authcache } from '../../pages/_app';
 
 // let authToken = false;
 // if (typeof window !== 'undefined') {
@@ -40,9 +40,22 @@ const Header = () => {
             create link
           </Link>
           <div className="ml1">|</div>
+
           <Link href="/login" className="ml3 no-underline black">
             login
           </Link>
+          <div className="ml1">|</div>
+
+          <Link
+            href={{
+              pathname: '/new/[slug]',
+              query: { slug: 1 },
+            }}
+            className="ml3 no-underline black"
+          >
+            new
+          </Link>
+          <div className="ml1">|</div>
           {authToken && (
             <div className="flex">
               <div className="ml1">|</div>
