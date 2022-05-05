@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import LoginComponent from '../components/login.js';
+import LoginComponent from '../components/Login.js';
 
 const Login = () => {
   return (
