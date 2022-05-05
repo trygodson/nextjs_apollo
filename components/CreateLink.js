@@ -7,10 +7,8 @@ import { FEED_QUERY } from './linkList';
 const CREATE_LINK_MUTATION = gql`
   mutation CreateLinkMutation($description: String!, $url: String!) {
     createLink(description: $description, url: $url) {
-      id
-      postedBy
-      url
       description
+      url
     }
   }
 `;
@@ -27,26 +25,25 @@ const CreateLinkComponent = () => {
       description: formState.description,
       url: formState.url,
     },
-    update: (cache, { data: { post } }) => {
-      const data = cache.readQuery({
-        query: FEED_QUERY,
-      });
+    // update: (cache, { data: { post } }) => {
+    //   const data = cache.readQuery({
+    //     query: FEED_QUERY,
+    //   });
 
-      cache.writeQuery({
-        query: FEED_QUERY,
-        data: {
-          feed: {
-            links: [post, ...data.feed.links],
-          },
-        },
-      });
-    },
+    //   cache.writeQuery({
+    //     query: FEED_QUERY,
+    //     data: {
+    //       feed: {
+    //         links: [post, ...data.feed.links],
+    //       },
+    //     },
+    //   });
+    // },
     onCompleted: data => {
       console.log(data);
       route.push('/');
     },
   });
-
   return (
     <div>
       <form
