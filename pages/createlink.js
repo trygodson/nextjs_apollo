@@ -1,7 +1,12 @@
 import CreateLinkComponent from '../components/CreateLink';
+import Layout from '../components/Layout';
 
 const CreateLink = () => {
-  return <CreateLinkComponent />;
+  return (
+    <Layout>
+      <CreateLinkComponent />;
+    </Layout>
+  );
 };
 
 export default CreateLink;

@@ -4,24 +4,10 @@ import Link from './link';
 
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String!) {
-    feed(filter: $filter) {
+    links(filter: $filter) {
       id
-      links {
-        id
-        url
-        description
-        createdAt
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
-      }
+      url
+      description
     }
   }
 `;

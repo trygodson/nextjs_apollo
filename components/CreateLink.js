@@ -5,10 +5,10 @@ import { useRouter } from 'next/router';
 import { FEED_QUERY } from './linkList';
 
 const CREATE_LINK_MUTATION = gql`
-  mutation PostMutation($description: String!, $url: String!) {
-    post(description: $description, url: $url) {
+  mutation CreateLinkMutation($description: String!, $url: String!) {
+    createLink(description: $description, url: $url) {
       id
-      createdAt
+      postedBy
       url
       description
     }
@@ -41,7 +41,10 @@ const CreateLinkComponent = () => {
         },
       });
     },
-    onCompleted: () => route.push('/'),
+    onCompleted: data => {
+      console.log(data);
+      route.push('/');
+    },
   });
 
   return (

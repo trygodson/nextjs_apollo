@@ -2,37 +2,19 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { AUTH_TOKEN } from '../../constants/constants';
 import { useRouter } from 'next/router';
-// import { authcache } from '../../pages/_app';
 
-// let authToken = false;
-// if (typeof window !== 'undefined') {
-//   authToken = window.localStorage.getItem(AUTH_TOKEN);
-// }
 const Header = () => {
   const route = useRouter();
-  let authToken = false;
-  const keptToken = async () => {
-    // authToken = await authcache.getItem(AUTH_TOKEN);
-    // if (authToken) {
-    //   return authToken;
-    // }
-  };
+  let authToken;
   if (typeof window !== 'undefined') {
     authToken = window.localStorage.getItem(AUTH_TOKEN);
   }
-  // useEffect(() => {
-  //   keptToken();
-  // }, [route]);
-
-  // if (typeof window !== 'undefined') {
-  //   authToken = window.localStorage.getItem(AUTH_TOKEN);
-  // }
 
   return (
     <header className="container" style={{ marginBottom: '20px' }}>
       <div className="flex pa1 justify-between nowrap orange">
         <div className="flex flex-fixed black">
-          <Link href="/" className="no-underline black">
+          <Link href="/" className="no-underline black" style={{ cursor: 'pointer' }}>
             <div className="fw7 mr1">Hacker News</div>
           </Link>
 
@@ -45,6 +27,9 @@ const Header = () => {
             login
           </Link>
           <div className="ml1">|</div>
+          <Link href="/register" className="ml3 no-underline black">
+            register
+          </Link>
 
           {/* <Link
             href={{
@@ -55,7 +40,6 @@ const Header = () => {
           >
             new
           </Link> */}
-          <div className="ml1">|</div>
           {authToken && (
             <div className="flex">
               <div className="ml1">|</div>
