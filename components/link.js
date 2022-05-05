@@ -1,85 +1,44 @@
+import { useContext } from 'react';
+
 import { AUTH_TOKEN, LINKS_PER_PAGE } from '../constants/constants.js';
 import { timeDifferenceForDate } from '../constants/utils.js';
 import { gql, useMutation } from '@apollo/client';
 import { FEED_QUERY } from './linkList.js';
+import AuthContext from '../constants/context.js';
 
 const VOTE_MUTATION = gql`
-  mutation VoteMutation($linkId: ID!) {
-    vote(linkId: $linkId) {
-      id
+  mutation VoteMutation($linkId: Int!) {
+    createVote(linkId: $linkId) {
       link {
         id
-        votes {
-          id
-          user {
-            id
-          }
-        }
+        description
+        postedBy
       }
       user {
         id
+        username
       }
     }
   }
 `;
 
 const Link = props => {
+  const { token } = useContext(AuthContext);
   const { link } = props;
-  const authToken = false;
-
-  if (typeof window !== 'undefined') {
-    authToken = window.localStorage.getItem(AUTH_TOKEN);
-  }
-
-  const take = LINKS_PER_PAGE;
-  const skip = 0;
-  const orderBy = { createdAt: 'desc' };
-
   const [vote] = useMutation(VOTE_MUTATION, {
     variables: {
-      linkId: link.id,
+      linkId: parseInt(link.id),
     },
-    update: (cache, { data: { vote } }) => {
-      const { feed } = cache.readQuery({
-        query: FEED_QUERY,
-        variables: {
-          take,
-          skip,
-          orderBy,
-        },
-      });
-
-      const updatedLinks = feed.links.map(feedLink => {
-        if (feedLink.id === link.id) {
-          return {
-            ...feedLink,
-            votes: [...feedLink.votes, vote],
-          };
-        }
-        return feedLink;
-      });
-
-      cache.writeQuery({
-        query: FEED_QUERY,
-        data: {
-          feed: {
-            links: updatedLinks,
-          },
-        },
-        variables: {
-          take,
-          skip,
-          orderBy,
-        },
-      });
+    onCompleted: data => {
+      route.push('/');
     },
   });
-
+  console.log(link);
   return (
     <div className="flex mt2 items-start">
       <div className="flex items-center">
-        <span className="gray">{props.id + 1}.</span>
-        {authToken && (
+        <span className="gray">{link.id + 1}.</span>
+        {token && (
           <div className="ml1 gray f11" style={{ cursor: 'pointer' }} onClick={vote}>
             ▲
           </div>

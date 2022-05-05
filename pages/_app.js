@@ -9,36 +9,34 @@ import { AUTH_TOKEN } from '../constants/constants';
 import { AuthProvider, useAuth } from '../constants/context';
 
 function MyApp({ Component, pageProps }) {
-  const [token, setToken] = useState(false);
-  const httpLink = createHttpLink({
-    uri: 'http://graphql.kingnonso.com/graphql',
-    // headers: {
-    //   authorization: token ? 'JWT ' + token : '',
-    // },
-    // credentials: 'include',
-  });
+  const [token, setToken] = useState(null);
+  // const httpLink = createHttpLink({
+  //   uri: 'http://graphql.kingnonso.com/graphql',
+  //   // headers: {
+  //   //   authorization: token ? 'JWT ' + token : '',
+  //   // },
+  //   // credentials: 'include',
+  // });
 
-  const authLink = setContext((_, { headers }) => {
-    // const tokenn = window.localStorage.getItem(AUTH_TOKEN);
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `JWT ${token}` : '',
-      },
-    };
-  });
+  // const authLink = setContext((_, { headers }) => {
+  //   // const tokenn = window.localStorage.getItem(AUTH_TOKEN);
+  //   return {
+  //     headers: {
+  //       ...headers,
+  //       authorization: token ? `JWT ${token}` : '',
+  //     },
+  //   };
+  // });
 
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    // link: httpLink,
-    cache: new InMemoryCache(),
-  });
+  // const client = new ApolloClient({
+  //   link: authLink.concat(httpLink),
+  //   // link: httpLink,
+  //   cache: new InMemoryCache(),
+  // });
 
   return (
     <AuthProvider value={{ token, setToken }}>
-      <ApolloProvider client={client}>
-        <Component {...pageProps} />{' '}
-      </ApolloProvider>
+      <Component {...pageProps} />{' '}
     </AuthProvider>
   );
 }

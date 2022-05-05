@@ -4,6 +4,7 @@ import { setContext } from '@apollo/client/link/context';
 
 import Header from './Header';
 import { AUTH_TOKEN } from '../../constants/constants';
+import AuthContext from '../../constants/context';
 // import AuthContext, { useAuth } from '../../constants/context';
 
 // const httpLink = createHttpLink({
@@ -31,11 +32,38 @@ import { AUTH_TOKEN } from '../../constants/constants';
 // });
 
 const Layout = ({ children }) => {
+  const { token } = useContext(AuthContext);
+  const httpLink = createHttpLink({
+    uri: 'http://graphql.kingnonso.com/graphql',
+    headers: {
+      Authorization: token ? 'JWT ' + token : '',
+      'content-type': 'application/json',
+    },
+    credentials: 'include',
+  });
+
+  // const authLink = setContext((_, { headers }) => {
+  //   // const tokenn = window.localStorage.getItem(AUTH_TOKEN);
+  //   return {
+  //     headers: {
+  //       ...headers,
+  //       authorization: token ? `JWT ${token}` : '',
+
+  //     },
+  //   };
+  // });
+
+  const client = new ApolloClient({
+    // link: authLink.concat(httpLink),
+    link: httpLink,
+    cache: new InMemoryCache(),
+  });
+
   return (
-    <>
+    <ApolloProvider client={client}>
       <Header />
       {children}
-    </>
+    </ApolloProvider>
   );
 };
 
