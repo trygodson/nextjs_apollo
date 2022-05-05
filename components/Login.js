@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { AUTH_TOKEN } from '../constants/constants';
+import AuthContext from '../constants/context';
 
 const LOGIN_MUTATION = gql`
   mutation SignupMutation($email: String!, $password: String!) {
@@ -15,6 +16,8 @@ const LOGIN_MUTATION = gql`
 
 const LoginComponent = () => {
   const route = useRouter();
+  const { setToken } = useContext(AuthContext);
+
   const [formState, setFormState] = useState({
     email: '',
     password: '',
@@ -26,10 +29,11 @@ const LoginComponent = () => {
       password: formState.password,
     },
     onCompleted: data => {
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(AUTH_TOKEN, data.loginUser.token);
-        route.push('/');
-      }
+      // if (typeof window !== 'undefined') {
+      //   window.localStorage.setItem(AUTH_TOKEN, data.loginUser.token);
+      // }
+      setToken(data.loginUser.token);
+      route.push('/');
     },
   });
 

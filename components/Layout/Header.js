@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Link from 'next/link';
 import { AUTH_TOKEN } from '../../constants/constants';
 import { useRouter } from 'next/router';
+import AuthContext from '../../constants/context';
 
 const Header = () => {
   const route = useRouter();
-  let authToken;
-  if (typeof window !== 'undefined') {
-    authToken = window.localStorage.getItem(AUTH_TOKEN);
-  }
+  const { token } = useContext(AuthContext);
+
+  // let authToken;
+  // if () {
+  //   authToken = window.localStorage.getItem(AUTH_TOKEN);
+  // }
 
   return (
     <header className="container" style={{ marginBottom: '20px' }}>
@@ -40,7 +43,7 @@ const Header = () => {
           >
             new
           </Link> */}
-          {authToken && (
+          {token && (
             <div className="flex">
               <div className="ml1">|</div>
               <Link href="/search" className="ml1 no-underline black">
@@ -50,7 +53,7 @@ const Header = () => {
           )}
         </div>
         <div className="flex flex-fixed">
-          {authToken ? (
+          {token ? (
             <div
               className="ml1 pointer black"
               onClick={() => {

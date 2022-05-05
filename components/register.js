@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { AUTH_TOKEN } from '../constants/constants';
+import AuthContext from '../constants/context';
 
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation(
@@ -29,6 +30,7 @@ const SIGNUP_MUTATION = gql`
 
 const RegisterComponent = () => {
   const route = useRouter();
+  const { token } = useContext(AuthContext);
   const [formState, setFormState] = useState({
     email: '',
     password1: '',
@@ -49,11 +51,9 @@ const RegisterComponent = () => {
       lastName: formState.lastName,
     },
     onCompleted: data => {
-      console.log(register);
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(AUTH_TOKEN, data.register.token);
-        route.push('/');
-      }
+      // console.log(register);
+      setToken(data.register.token);
+      route.push('/');
     },
   });
 
